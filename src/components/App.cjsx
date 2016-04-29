@@ -7,20 +7,9 @@ React = {
   Picker,
   TouchableHighlight
 } = require 'react-native'
-styles                          = require '../styles/app'
+styles = require '../styles/app'
 { NUMLENGTH, OPMAP, OPERATORS } = require '../config'
-
-getRandomInt = (min, max) ->
-  return Math.floor(Math.random() * (max - min)) + min
-
-curry = (f) ->
-  parameters = Array.prototype.slice.call(arguments, 1)
-  -> f.apply this, parameters.concat(Array.prototype.slice.call(arguments, 0))
-
-generateRandArray = ({ size, min, max }) ->
-  res = []
-  res.push(getRandomInt(min, max)) for i in [0...size]
-  res
+utils = require './utils'
 
 class App extends Component
   animateTitle: ->
@@ -37,7 +26,7 @@ class App extends Component
     @animateTitle()
 
   getRandomOperators: (n) ->
-    return generateRandArray({ size: n, min: 0, max: 4 }).map(
+    return utils.generateRandArray({ size: n, min: 0, max: 4 }).map(
       (n) => OPERATORS[n]
     )
 
@@ -55,7 +44,7 @@ class App extends Component
     { numbers, operators }
 
   evaluateCombination: ({ numbers, operators }) ->
-    doOperation = curry(@doOperation, { operators, numbers })
+    doOperation = utils.curry(@doOperation, { operators, numbers })
 
     if numbers.length is 1
       # Base case
@@ -67,7 +56,7 @@ class App extends Component
       @evaluateCombination.bind(@)(doOperation(index))
 
   generateNumbers: (n) ->
-    generateRandArray({ size: n, min: 1, max: 10 })
+    utils.generateRandArray({ size: n, min: 1, max: 10 })
 
   generateNewGame: (numLength = NUMLENGTH) ->
     numbers   = @generateNumbers(numLength)
@@ -145,7 +134,7 @@ class App extends Component
             key={"input-#{i}"}
             style={styles.picker}
             selectedValue={operators[i]}
-            onValueChange={curry(setOperator, i)}
+            onValueChange={utils.curry(setOperator, i)}
           >
             {OPERATORS.map((op) =>
               <Picker.Item
