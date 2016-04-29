@@ -26,17 +26,15 @@ class App extends Component
     @animateTitle()
 
   getRandomOperators: (n) ->
-    return utils.generateRandArray({ size: n, min: 0, max: 4 }).map(
-      (n) => OPERATORS[n]
-    )
+    utils.generateRandArray({ size: n, min: 0, max: 4 }).map (n) => OPERATORS[n]
 
   doOperation: ({ operators, numbers }, index) ->
     # Avoid mutating inputs
     numbers   = numbers.slice(0)
     operators = operators.slice(0)
-    n1    = numbers[index]
-    n2    = numbers[index + 1]
-    op    = operators.splice(index, 1)[0]
+    n1        = numbers[index]
+    n2        = numbers[index + 1]
+    op        = operators.splice(index, 1)[0]
 
     numbers[index] = OPMAP[op](n1, n2)
     numbers.splice(index + 1, 1)
@@ -154,51 +152,46 @@ class App extends Component
     @animateTitle()
 
   render: ->
-    # Necessary since React gives our function a parameter we don't want
-    reset = @reset.bind(@)
-
-    (
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Animated.Text
-            style={[{ opacity: @state.title.opacity }, styles.title]}
-          >
-            Make
-          </Animated.Text>
-          <Animated.Text
-            style={[{ opacity: @state.number.opacity }, styles.title]}
-          >
-            {@state.number.value}
-          </Animated.Text>
-        </View>
-        <View style={styles.game}>
-          {@renderInputs(@state)}
-        </View>
-        <View style={styles.details}>
-          <Text
-            style={ { opacity: if @state.text? then 1 else 0 } }
-          >
-            {@state.text}
-          </Text>
-          <Animated.Text
-            key={@state.win.text.key}
-            style={[{ opacity: @state.win.text.opacity }, styles.win]}
-          >
-            A winner is you!
-          </Animated.Text>
-          <TouchableHighlight
-            key={@state.win.key}
-            onPress={reset}
-          >
-            <Animated.Text
-              key={@state.win.reset.key}
-              style={[{ opacity: @state.win.reset.opacity }, styles.win]}
-            >
-              Tap to play again
-            </Animated.Text>
-          </TouchableHighlight>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.titleContainer}>
+        <Animated.Text
+          style={[{ opacity: @state.title.opacity }, styles.title]}
+        >
+          Make
+        </Animated.Text>
+        <Animated.Text
+          style={[{ opacity: @state.number.opacity }, styles.title]}
+        >
+          {@state.number.value}
+        </Animated.Text>
       </View>
-    )
+      <View style={styles.game}>
+        {@renderInputs(@state)}
+      </View>
+      <View style={styles.details}>
+        <Text
+          style={ { opacity: if @state.text? then 1 else 0 } }
+        >
+          {@state.text}
+        </Text>
+        <Animated.Text
+          key={@state.win.text.key}
+          style={[{ opacity: @state.win.text.opacity }, styles.win]}
+        >
+          A winner is you!
+        </Animated.Text>
+        <TouchableHighlight
+          key={@state.win.key}
+          onPress={@reset.bind(@)}
+        >
+          <Animated.Text
+            key={@state.win.reset.key}
+            style={[{ opacity: @state.win.reset.opacity }, styles.win]}
+          >
+            Tap to play again
+          </Animated.Text>
+        </TouchableHighlight>
+      </View>
+    </View>
 
 module.exports = App
