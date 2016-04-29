@@ -7,15 +7,8 @@ React = {
   Picker,
   TouchableHighlight
 } = require 'react-native'
-styles = require '../styles/app'
-
-NUMLENGTH = 4 # Default amount of numbers in a game
-OPERATORS = ['*', '/', '+', '-']
-OPMAP =
-  '*': (n1, n2) -> n1 * n2
-  '/': (n1, n2) -> n1 / n2
-  '+': (n1, n2) -> n1 + n2
-  '-': (n1, n2) -> n1 - n2
+styles                          = require '../styles/app'
+{ NUMLENGTH, OPMAP, OPERATORS } = require '../config'
 
 getRandomInt = (min, max) ->
   return Math.floor(Math.random() * (max - min)) + min
