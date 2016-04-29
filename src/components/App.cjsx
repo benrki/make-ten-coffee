@@ -1,13 +1,13 @@
 React = {
   Animated,
   Component,
-  StyleSheet,
   Text,
   TextInput,
   View,
   Picker,
   TouchableHighlight
 } = require 'react-native'
+styles = require '../styles/app'
 
 NUMLENGTH = 4 # Default amount of numbers in a game
 OPERATORS = ['*', '/', '+', '-']
@@ -28,39 +28,6 @@ generateRandArray = ({ size, min, max }) ->
   res = []
   res.push(getRandomInt(min, max)) for i in [0...size]
   res
-
-styles = StyleSheet.create
-  container:
-    flex: 1
-    justifyContent: 'center'
-    backgroundColor: '#F5FCFF'
-    alignItems: 'center'
-  titleContainer:
-    flexDirection: 'row'
-    marginBottom: 50
-  title:
-    fontSize: 30
-    textAlign: 'center'
-    margin: 10
-    fontWeight: 'bold'
-    alignSelf: 'auto'
-  game:
-    marginBottom: 100
-    flexDirection: 'row'
-  picker:
-    height: 50
-    width: 25
-    justifyContent: 'center'
-    margin: 10
-  number:
-    height: 50
-    width: 25
-    fontSize: 25
-    textAlign: 'center'
-    margin: 10
-  details:
-    justifyContent: 'center'
-    alignItems: 'center'
 
 class App extends Component
   animateTitle: ->
@@ -207,7 +174,7 @@ class App extends Component
   render: ->
     # Necessary since React gives our function a parameter we don't want
     reset = @reset.bind(@)
-    console.log 'state', @state
+
     (
       <View style={styles.container}>
         <View style={styles.titleContainer}>
